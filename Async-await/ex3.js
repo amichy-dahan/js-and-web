@@ -6,13 +6,11 @@ async function getUserWithPosts() {
     let totalUsers = user.data.length
     let totalPosts = posts.data.length
 
-   
     let totalComments = comments.data.length
     let avgPostsPerUser = totalPosts / user.data.length
     let avgCommentsPerPost = comments.data.length / posts.data.length
 
     let topUsers = []
-
     let postCount = 0;
     let commentCount = 0;
 
@@ -24,8 +22,6 @@ async function getUserWithPosts() {
             let commentsForPost = comments.data.filter(comment => comment.postId === post.id);
             commentCount += commentsForPost.length;
         });
-
-
         topUsers.push({
             name: user.data[index].name,
             postCount,
