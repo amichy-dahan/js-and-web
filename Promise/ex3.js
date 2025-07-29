@@ -1,39 +1,100 @@
 // Simulated inventory database
 const inventory = {
-  'laptop': { price: 999, stock: 5 },
-  'mouse': { price: 25, stock: 10 },
-  'keyboard': { price: 75, stock: 0 }, // Out of stock
-  'monitor': { price: 299, stock: 3 }
+    'laptop': { price: 999, stock: 5 },
+    'mouse': { price: 25, stock: 10 },
+    'keyboard': { price: 75, stock: 2 }, // Out of stock
+    'monitor': { price: 299, stock: 0 }
 };
 
 function checkInventory(items) {
-  // TODO: Return a promise that:
-  // 1. Waits 500ms (simulating database check)
-  // 2. Checks if all items are in stock
-  // 3. Resolves with items if all available
-  // 4. Rejects with specific item that's out of stock
+    return new Promise((resolve, reject) => {
+        let bool = false;
+        setTimeout(() => {
+            for (const key in items) {
+                if (items[key].stock === 0) {
+                    reject(new Error(`this item is out of the stock ${key}`))
+                    bool = true;
+                }
+            }
+            if (bool) {
+
+            } else {
+                resolve(items)
+            }
+
+        }, 500)
+    })
 }
+checkInventory(inventory).then(res => console.log(res)).catch(err => console.log(err.message))
+
+
+
 
 function calculateTotal(items) {
-  // TODO: Return a promise that:
-  // 1. Waits 200ms
-  // 2. Calculates total price including 8% tax
-  // 3. Resolves with { subtotal, tax, total }
+    return new Promise((resolve, reject) => {
+        let subtotal = 0;
+        let tax = 0;
+        let total = 0
+        setTimeout(() => {
+            for (const key in items) {
+                subtotal += items[key].price;
+            }
+            tax = subtotal * 0.08;
+            total = subtotal + tax;
+            resolve({ subtotal: subtotal, tax: tax, total: total })
+        }, 200)
+    })
 }
+calculateTotal(inventory).then(res => console.log(res))
+
+
+
+
 
 function processPayment(amount) {
-  // TODO: Return a promise that:
-  // 1. Waits 1500ms (simulating payment processing)
-  // 2. 90% success rate
-  // 3. Resolves with { transactionId, amount, status: 'success' }
-  // 4. Rejects with payment failure error
+    
+    return new Promise((resolve, reject) => {
+
+        setTimeout(() => {
+            const randomNumber = Math.random();
+            if (randomNumber < 0.9) {
+                resolve({ transactionId: 200, amount: amount, status: 'success' });
+            } else {
+                reject(new Error("Payment failed. Please try again."))
+            }
+
+        },1500)
+
+
+    })
+}
+
+processPayment(100).then(res => console.log(res)).catch(err => console.log(err.message))
+let order = [
+  { item: 'laptop', quantity: 2 },
+  { item: 'mouse', quantity: 2 }
+];
+for (const key of order) {
+    console.log(key.item)
 }
 
 function updateInventory(items) {
-  // TODO: Return a promise that:
-  // 1. Waits 300ms
-  // 2. Reduces stock for each item
-  // 3. Resolves with updated inventory status
+    // TODO: Return a promise that:
+    // 1. Waits 300ms
+    // 2. Reduces stock for each item
+    // 3. Resolves with updated inventory status
+    
+   return new Promise((resolve, reject) => {
+
+        setTimeout(() => {
+           
+            let
+
+    
+        },300)
+
+
+    })
 }
 
 // TODO: Create a complete checkout function that:
@@ -43,18 +104,18 @@ function updateInventory(items) {
 // 4. Handles all possible errors appropriately
 
 function checkout(itemNames) {
-  // TODO: Implement the complete checkout flow
+    // TODO: Implement the complete checkout flow
 }
 
-// Test cases:
-checkout(['laptop', 'mouse'])           // Should succeed
-  .then(result => console.log('Order success:', result))
-  .catch(error => console.log('Order failed:', error.message));
+// // Test cases:
+// checkout(['laptop', 'mouse'])           // Should succeed
+//   .then(result => console.log('Order success:', result))
+//   .catch(error => console.log('Order failed:', error.message));
 
-checkout(['laptop', 'keyboard'])        // Should fail - keyboard out of stock
-  .then(result => console.log('Order success:', result))
-  .catch(error => console.log('Order failed:', error.message));
+// checkout(['laptop', 'keyboard'])        // Should fail - keyboard out of stock
+//   .then(result => console.log('Order success:', result))
+//   .catch(error => console.log('Order failed:', error.message));
 
-checkout(['monitor', 'mouse', 'laptop']) // Might fail at payment (10% chance)
-  .then(result => console.log('Order success:', result))
-  .catch(error => console.log('Order failed:', error.message));
+// checkout(['monitor', 'mouse', 'laptop']) // Might fail at payment (10% chance)
+//   .then(result => console.log('Order success:', result))
+//   .catch(error => console.log('Order failed:', error.message));
